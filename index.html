@@ -1,131 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KhetHub | Smart Irrigation Advisor</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KhetHub Smart Irrigation Dashboard</title>
 
-    <link rel="stylesheet" href="style.css">
-
+    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-<header>
-    <div class="container">
-        <h1>🌾 KhetHub</h1>
-        <p>Smart Irrigation Advisor</p>
-    </div>
-</header>
-
-<main class="container">
-
-    <section class="card">
-
-        <h2>Farm Details</h2>
-
-        <form id="farmForm">
-
-            <div class="input-group">
-                <label for="farmerName">Farmer Name</label>
-                <input
-                    type="text"
-                    id="farmerName"
-                    placeholder="Enter your name"
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label for="crop">Select Crop</label>
-
-                <select id="crop" required>
-                    <option value="">Choose Crop</option>
-                    <option>Wheat</option>
-                    <option>Rice</option>
-                    <option>Potato</option>
-                    <option>Tomato</option>
-                    <option>Sugarcane</option>
-                    <option>Maize</option>
-                </select>
-
-            </div>
-
-            <div class="input-group">
-                <label for="location">Location</label>
-
-                <input
-                    type="text"
-                    id="location"
-                    placeholder="Enter Village / City"
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label for="moisture">Soil Moisture (%)</label>
-
-                <input
-                    type="number"
-                    id="moisture"
-                    placeholder="Example: 35"
-                    min="0"
-                    max="100"
-                    required
-                >
-            </div>
-
-            <button type="submit">
-                Get Recommendation
-            </button>
-
-        </form>
-
-    </section>
-
-    <section class="card">
-
-        <h2>Irrigation Recommendation</h2>
-
-        <div id="result">
-
-            <p><strong>Crop:</strong> <span id="cropResult">--</span></p>
-
-            <p><strong>Location:</strong> <span id="locationResult">--</span></p>
-
-            <p><strong>Soil Moisture:</strong> <span id="moistureResult">--</span></p>
-
-            <p><strong>Recommendation:</strong> <span id="recommendation">Waiting...</span></p>
-
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            🌱 <span>KhetHub</span>
         </div>
 
-    </section>
+        <nav>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Irrigation</a>
+            <a href="#">Crop Health</a>
+            <a href="#">Weather</a>
+            <a href="#">Analytics</a>
+            <a href="#">Settings</a>
+        </nav>
+    </aside>
 
-    <section class="card">
+    <!-- Main Content -->
+    <main class="main-content">
 
-        <h2>Benefits</h2>
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <h1>Smart Irrigation Dashboard</h1>
+                <p>Israel-inspired precision irrigation for Indian farmers</p>
+            </div>
 
-        <ul>
-            <li>💧 Save Water</li>
-            <li>🌱 Improve Crop Health</li>
-            <li>📈 Increase Crop Yield</li>
-            <li>💰 Reduce Irrigation Cost</li>
-            <li>🌦️ Smart Weather-Based Decisions</li>
-        </ul>
+            <button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+        </header>
 
-    </section>
+        <!-- Sensor Cards -->
+        <section class="cards">
 
-</main>
+            <div class="card">
+                <div class="card-icon">💧</div>
+                <div>
+                    <h3>Soil Moisture</h3>
+                    <p id="moisture">68%</p>
+                </div>
+            </div>
 
-<footer>
-    <p>© 2026 KhetHub | Smart Agriculture Product Proposal</p>
-</footer>
+            <div class="card">
+                <div class="card-icon">🌡️</div>
+                <div>
+                    <h3>Temperature</h3>
+                    <p id="temperature">31°C</p>
+                </div>
+            </div>
 
-<script src="script.js"></script>
+            <div class="card">
+                <div class="card-icon">☁️</div>
+                <div>
+                    <h3>Humidity</h3>
+                    <p id="humidity">74%</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🚰</div>
+                <div>
+                    <h3>Tank Level</h3>
+                    <p id="tank">82%</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Charts -->
+        <section class="chart-section">
+
+            <div class="chart-card">
+                <h2>Water Usage Analytics</h2>
+                <canvas id="waterChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>Soil Moisture Trend</h2>
+                <canvas id="moistureChart"></canvas>
+            </div>
+
+        </section>
+
+        <!-- AI Advisory -->
+        <section class="ai-section">
+
+            <div class="ai-card">
+                <h2>🤖 AI Irrigation Recommendation</h2>
+
+                <div class="ai-status">
+                    <span class="status-badge">Moderate Moisture</span>
+                </div>
+
+                <p>
+                    Soil moisture is currently at <strong>68%</strong>.
+                    Irrigation is <strong>not required immediately</strong>.
+                    The next irrigation cycle is recommended in <strong>6 hours</strong>
+                    based on temperature, humidity, and crop evapotranspiration data.
+                </p>
+
+                <ul>
+                    <li>Estimated Water Saving: <strong>32%</strong></li>
+                    <li>Crop Stress Risk: <strong>Low</strong></li>
+                    <li>Recommended Irrigation Duration: <strong>12 minutes</strong></li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- Control Panel -->
+        <section class="control-section">
+
+            <div class="control-card">
+                <h2>🚿 Irrigation Control</h2>
+
+                <div class="control-buttons">
+                    <button id="startBtn" class="btn btn-start">
+                        Start Irrigation
+                    </button>
+
+                    <button id="stopBtn" class="btn btn-stop">
+                        Stop Irrigation
+                    </button>
+                </div>
+
+                <div class="system-status">
+                    <p>System Status: <span id="systemStatus">Idle</span></p>
+                    <p>Pump Status: <span id="pumpStatus">OFF</span></p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Water Management -->
+        <section class="water-management">
+
+            <div class="water-card">
+                <h2>💧 Water Conservation Metrics</h2>
+
+                <div class="metrics-grid">
+
+                    <div class="metric">
+                        <h4>Daily Water Saved</h4>
+                        <p>1,250 L</p>
+                    </div>
+
+                    <div class="metric">
+                        <h4>Monthly Saving</h4>
+                        <p>37,500 L</p>
+                    </div>
+
+                    <div class="metric">
+                        <h4>Irrigation Efficiency</h4>
+                        <p>91%</p>
+                    </div>
+
+                    <div class="metric">
+                        <h4>Drip System Health</h4>
+                        <p>Excellent</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                KhetHub Internship Program 2026 • Israel Smart Agriculture Prototype •
+                Built with HTML, CSS & JavaScript
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
 
 </body>
 </html>
